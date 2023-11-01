@@ -34,8 +34,8 @@ docfx "$PROJECT_DOCFX_PATH/docfx.json"
 # Copy the docs directory so that the README and other docs work properly
 cp -r docs/ "$PROJECT_DOCFX_PATH/_site/docs"
 
-# Move the pewlogo into the images directory of the generated docfx directory
-cp docs/images/pewlogo.png "$PROJECT_DOCFX_PATH/_site/images/"
+# Move the pewlogo into place.
+cp docs/images/pewlogo.png "$PROJECT_DOCFX_PATH/_site/"
 
 # Iterate through all the files that contain 'logo.svg', and replace with pewlogo.png
 grep -inrl "logo.svg" "$PROJECT_DOCFX_PATH/_site/" | while read -r line ; do 
