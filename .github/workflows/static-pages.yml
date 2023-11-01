@@ -2,7 +2,7 @@ name: Generate GitHub Pages
 on:
   push:
     branches:
-      - 'docs/github-pages'
+      - 'stable'
 
 jobs:
   publish-docs:
