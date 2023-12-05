@@ -30,9 +30,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
         void Awake();
 
-        void LoadConfigFromDisk();
+        void Read();
 
-        void SaveToJSONConfig(bool prettyPrint);
+        void Save(bool prettyPrint);
 
         void OnGUI();
     }

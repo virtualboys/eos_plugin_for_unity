@@ -50,7 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices
             configFile = new EOSConfigFile<EOS_macOSConfig>(configFilenamePath);
         }
 
-        public void LoadConfigFromDisk()
+        public void Read()
         {
             configFile.LoadConfigFromDisk();
         }
@@ -89,7 +89,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         }
 
-        public void SaveToJSONConfig(bool prettyPrint)
+        public void Save(bool prettyPrint)
         {
             configFile.SaveToJSONConfig(prettyPrint);
         }
