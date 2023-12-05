@@ -28,26 +28,26 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
 
-    public class PlatformSpecificConfigEditor_macOS : IPlatformSpecificConfigEditor
+    public class PlatformSpecificConfigEditoriOS : IPlatformSpecificConfigEditor
     {
-        public static string ConfigFilename = "eos_macos_config.json";
-        EOSConfigFile<EOS_macOSConfig> configFile;
+        public static string ConfigFilename = "eos_ios_config.json";
+        EOSConfigFile<EOS_iOSConfig> configFile;
 
         [InitializeOnLoadMethod]
         static void Register()
         {
-            EpicOnlineServicesConfigEditor.AddPlatformSpecificConfigEditor(new PlatformSpecificConfigEditor_macOS());
+            EpicOnlineServicesConfigEditor.AddPlatformSpecificConfigEditor(new PlatformSpecificConfigEditoriOS());
         }
 
         public string GetNameForMenu()
         {
-            return "macOS";
+            return "iOS";
         }
 
         public void Awake()
         {
             var configFilenamePath = EpicOnlineServicesConfigEditor.GetConfigPath(ConfigFilename);
-            configFile = new EOSConfigFile<EOS_macOSConfig>(configFilenamePath);
+            configFile = new EOSConfigFile<EOS_iOSConfig>(configFilenamePath);
         }
 
         public void LoadConfigFromDisk()
@@ -57,7 +57,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public void OnGUI()
         {
-            GUILayout.Label("macOS Configuration Values", EditorStyles.boldLabel);
+            GUILayout.Label("iOS Configuration Values", EditorStyles.boldLabel);
 
             EOSConfig overrideValues = null;
             if (configFile.currentEOSConfig.overrideValues == null)
