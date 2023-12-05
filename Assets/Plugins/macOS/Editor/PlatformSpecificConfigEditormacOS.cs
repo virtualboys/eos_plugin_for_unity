@@ -36,7 +36,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [InitializeOnLoadMethod]
         static void Register()
         {
-            EpicOnlineServicesConfigEditor.AddPlatformSpecificConfigEditor(new PlatformSpecificConfigEditormacOS());
+            EpicOnlineServicesConfigEditorWindow.AddPlatformSpecificConfigEditor(new PlatformSpecificConfigEditormacOS());
         }
 
         public string GetMenuName()
@@ -46,7 +46,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public void Awake()
         {
-            var configFilenamePath = EpicOnlineServicesConfigEditor.GetConfigPath(ConfigFilename);
+            var configFilenamePath = EpicOnlineServicesConfigEditorWindow.GetConfigPath(ConfigFilename);
             configFile = new EOSConfigFile<EOS_macOSConfig>(configFilenamePath);
         }
 
@@ -69,18 +69,18 @@ namespace PlayEveryWare.EpicOnlineServices
                 overrideValues = configFile.currentEOSConfig.overrideValues;
             }
 
-            EpicOnlineServicesConfigEditor.AssigningFlagTextField("Override Platform Flags (Seperated by '|')", ref overrideValues.platformOptionsFlags, 250);
+            EpicOnlineServicesConfigEditorWindow.AssigningFlagTextField("Override Platform Flags (Seperated by '|')", ref overrideValues.platformOptionsFlags, 250);
 
-            EpicOnlineServicesConfigEditor.AssigningFloatToStringField("Override initial button delay for overlay", ref overrideValues.initialButtonDelayForOverlay, 250);
+            EpicOnlineServicesConfigEditorWindow.AssigningFloatToStringField("Override initial button delay for overlay", ref overrideValues.initialButtonDelayForOverlay, 250);
 
-            EpicOnlineServicesConfigEditor.AssigningFloatToStringField("Override repeat button delay for overlay", ref overrideValues.repeatButtonDelayForOverlay, 250);
+            EpicOnlineServicesConfigEditorWindow.AssigningFloatToStringField("Override repeat button delay for overlay", ref overrideValues.repeatButtonDelayForOverlay, 250);
 
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: networkWork", ref overrideValues.ThreadAffinity_networkWork);
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: storageIO", ref overrideValues.ThreadAffinity_storageIO);
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: webSocketIO", ref overrideValues.ThreadAffinity_webSocketIO);
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: P2PIO", ref overrideValues.ThreadAffinity_P2PIO);
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref overrideValues.ThreadAffinity_HTTPRequestIO);
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: RTCIO", ref overrideValues.ThreadAffinity_RTCIO);
+            EpicOnlineServicesConfigEditorWindow.AssigningULongToStringField("Thread Affinity: networkWork", ref overrideValues.ThreadAffinity_networkWork);
+            EpicOnlineServicesConfigEditorWindow.AssigningULongToStringField("Thread Affinity: storageIO", ref overrideValues.ThreadAffinity_storageIO);
+            EpicOnlineServicesConfigEditorWindow.AssigningULongToStringField("Thread Affinity: webSocketIO", ref overrideValues.ThreadAffinity_webSocketIO);
+            EpicOnlineServicesConfigEditorWindow.AssigningULongToStringField("Thread Affinity: P2PIO", ref overrideValues.ThreadAffinity_P2PIO);
+            EpicOnlineServicesConfigEditorWindow.AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref overrideValues.ThreadAffinity_HTTPRequestIO);
+            EpicOnlineServicesConfigEditorWindow.AssigningULongToStringField("Thread Affinity: RTCIO", ref overrideValues.ThreadAffinity_RTCIO);
 
             if (!overrideValues.IsEmpty())
             {
@@ -92,6 +92,11 @@ namespace PlayEveryWare.EpicOnlineServices
         public void Save(bool prettyPrint)
         {
             configFile.SaveToJSONConfig(prettyPrint);
+        }
+
+        public bool HasUnsavedChanges()
+        {
+            return false;
         }
     }
 }

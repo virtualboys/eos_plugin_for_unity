@@ -32,11 +32,11 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
 
-    public class EpicOnlineServicesConfigEditor : EditorWindow
+    public class EpicOnlineServicesConfigEditorWindow : EditorWindow
     {
         static Regex EncryptionKeyRegex;
 
-        static EpicOnlineServicesConfigEditor()
+        static EpicOnlineServicesConfigEditorWindow()
         {
             EncryptionKeyRegex = new Regex("[^0-9a-fA-F]");
         }
@@ -70,14 +70,14 @@ namespace PlayEveryWare.EpicOnlineServices
         [MenuItem("Tools/EOS Plugin/Dev Portal Configuration")]
         public static void ShowWindow()
         {
-            GetWindow(typeof(EpicOnlineServicesConfigEditor), false, "EOS Config Editor", true);
+            GetWindow(typeof(EpicOnlineServicesConfigEditorWindow), false, "EOS Config Editor", true);
         }
 
 
         [SettingsProvider]
         public static SettingsProvider CreateProjectSettingsProvider()
         {
-            var eosPluginEditorConfigEditor = ScriptableObject.CreateInstance<EpicOnlineServicesConfigEditor>();
+            var eosPluginEditorConfigEditor = ScriptableObject.CreateInstance<EpicOnlineServicesConfigEditorWindow>();
             var keywords = new List<string>();
 
             foreach(var platformSpecificConfigEditor in platformSpecificConfigEditors)
@@ -178,8 +178,8 @@ _WIN32 || _WIN64
 
         private void Awake()
         {
-            mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(EOSPackageInfo.ConfigFileName));
-            steamEOSConfigFile = new EOSConfigFile<EOSSteamConfig>(EpicOnlineServicesConfigEditor.GetConfigPath(IntegratedPlatformConfigFilenameForSteam));
+            mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditorWindow.GetConfigPath(EOSPackageInfo.ConfigFileName));
+            steamEOSConfigFile = new EOSConfigFile<EOSSteamConfig>(EpicOnlineServicesConfigEditorWindow.GetConfigPath(IntegratedPlatformConfigFilenameForSteam));
 
             if (platformSpecificConfigEditors == null)
             {

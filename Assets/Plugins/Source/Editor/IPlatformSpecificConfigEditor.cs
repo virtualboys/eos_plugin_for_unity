@@ -35,5 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices
         void Save(bool prettyPrint);
 
         void OnGUI();
+
+        bool HasUnsavedChanges();
     }
 }

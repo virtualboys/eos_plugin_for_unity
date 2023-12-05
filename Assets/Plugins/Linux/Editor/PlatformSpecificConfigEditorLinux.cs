@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [InitializeOnLoadMethod]
         static void Register()
         {
-            EpicOnlineServicesConfigEditor.AddPlatformSpecificConfigEditor(new PlatformSpecificConfigEditorLinux());
+            EpicOnlineServicesConfigEditorWindow.AddPlatformSpecificConfigEditor(new PlatformSpecificConfigEditorLinux());
         }
 
         public string GetMenuName()
@@ -45,7 +45,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public void Awake()
         {
-            var configFilenamePath = EpicOnlineServicesConfigEditor.GetConfigPath(ConfigFilename);
+            var configFilenamePath = EpicOnlineServicesConfigEditorWindow.GetConfigPath(ConfigFilename);
             configFile = new EOSConfigFile<EOSLinuxConfig>(configFilenamePath);
         }
 
@@ -68,14 +68,14 @@ namespace PlayEveryWare.EpicOnlineServices
                 overrideValues = configFile.currentEOSConfig.overrideValues;
             }
 
-            EpicOnlineServicesConfigEditor.AssigningFlagTextField("Override Platform Flags (Seperated by '|')", ref overrideValues.platformOptionsFlags, 250);
+            EpicOnlineServicesConfigEditorWindow.AssigningFlagTextField("Override Platform Flags (Seperated by '|')", ref overrideValues.platformOptionsFlags, 250);
 
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: networkWork", ref overrideValues.ThreadAffinity_networkWork, 250);
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: storageIO", ref overrideValues.ThreadAffinity_storageIO, 250);
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: webSocketIO", ref overrideValues.ThreadAffinity_webSocketIO, 250);
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: P2PIO", ref overrideValues.ThreadAffinity_P2PIO, 250);
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref overrideValues.ThreadAffinity_HTTPRequestIO, 250);
-            EpicOnlineServicesConfigEditor.AssigningULongToStringField("Thread Affinity: RTCIO", ref overrideValues.ThreadAffinity_RTCIO, 250);
+            EpicOnlineServicesConfigEditorWindow.AssigningULongToStringField("Thread Affinity: networkWork", ref overrideValues.ThreadAffinity_networkWork, 250);
+            EpicOnlineServicesConfigEditorWindow.AssigningULongToStringField("Thread Affinity: storageIO", ref overrideValues.ThreadAffinity_storageIO, 250);
+            EpicOnlineServicesConfigEditorWindow.AssigningULongToStringField("Thread Affinity: webSocketIO", ref overrideValues.ThreadAffinity_webSocketIO, 250);
+            EpicOnlineServicesConfigEditorWindow.AssigningULongToStringField("Thread Affinity: P2PIO", ref overrideValues.ThreadAffinity_P2PIO, 250);
+            EpicOnlineServicesConfigEditorWindow.AssigningULongToStringField("Thread Affinity: HTTPRequestIO", ref overrideValues.ThreadAffinity_HTTPRequestIO, 250);
+            EpicOnlineServicesConfigEditorWindow.AssigningULongToStringField("Thread Affinity: RTCIO", ref overrideValues.ThreadAffinity_RTCIO, 250);
 
             if (!overrideValues.IsEmpty())
             {
@@ -87,6 +87,11 @@ namespace PlayEveryWare.EpicOnlineServices
         public void Save(bool prettyPrint)
         {
             configFile.SaveToJSONConfig(prettyPrint);
+        }
+
+        public bool HasUnsavedChanges()
+        {
+            return false;
         }
     }
 }

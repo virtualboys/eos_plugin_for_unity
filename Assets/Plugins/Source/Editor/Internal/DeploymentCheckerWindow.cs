@@ -25,7 +25,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-public class DeploymentChecker : EditorWindow
+public class DeploymentCheckerWindow : EditorWindow
 {
     private const string PackageDirectory = "etc/PackageTemplate";
     private const string ChangelogFile = "CHANGELOG.md";
@@ -43,7 +43,7 @@ public class DeploymentChecker : EditorWindow
     [MenuItem("Tools/EOS Plugin/Check Deployment")]
     public static void ShowWindow()
     {
-        GetWindow(typeof(DeploymentChecker), false, "Deployment Checker", true);
+        GetWindow(typeof(DeploymentCheckerWindow), false, "Deployment Checker", true);
     }
 
     //-------------------------------------------------------------------------

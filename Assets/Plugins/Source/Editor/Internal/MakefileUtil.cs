@@ -51,7 +51,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [InitializeOnLoadMethod]
         static void Register()
         {
-            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new LibraryBuildConfigEditor());
+            EOSPluginEditorConfigEditorWindow.AddConfigurationSectionEditor(new LibraryBuildConfigEditor());
         }
 
         public static string ConfigName = "eos_plugin_library_build_config.json";
@@ -59,11 +59,11 @@ namespace PlayEveryWare.EpicOnlineServices
 
         public void Awake()
         {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
+            var configFilenamePath = EOSPluginEditorConfigEditorWindow.GetConfigPath(ConfigName);
             configFile = new EOSConfigFile<EOSLibraryBuildConfig>(configFilenamePath);
         }
 
-        public bool DoesHaveUnsavedChanges()
+        public bool HasUnsavedChanges()
         {
             return false;
         }
@@ -73,7 +73,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return "Platform Library Build Settings";
         }
 
-        public void LoadConfigFromDisk()
+        public void Read()
         {
             configFile.LoadConfigFromDisk();
         }
@@ -83,15 +83,15 @@ namespace PlayEveryWare.EpicOnlineServices
             string msbuildPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.msbuildPath);
             string makePath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.makePath);
             bool msbuildDebug = configFile.currentEOSConfig.msbuildDebug;
-            EpicOnlineServicesConfigEditor.AssigningPath("MSBuild path", ref msbuildPath, "Select MSBuild", labelWidth: 80);
-            EpicOnlineServicesConfigEditor.AssigningPath("Make path", ref makePath, "Select make", labelWidth: 80);
-            EpicOnlineServicesConfigEditor.AssigningBoolField("Use debug config for MSBuild", ref msbuildDebug, labelWidth: 180);
+            EpicOnlineServicesConfigEditorWindow.AssigningPath("MSBuild path", ref msbuildPath, "Select MSBuild", labelWidth: 80);
+            EpicOnlineServicesConfigEditorWindow.AssigningPath("Make path", ref makePath, "Select make", labelWidth: 80);
+            EpicOnlineServicesConfigEditorWindow.AssigningBoolField("Use debug config for MSBuild", ref msbuildDebug, labelWidth: 180);
             configFile.currentEOSConfig.msbuildPath = msbuildPath;
             configFile.currentEOSConfig.makePath = makePath;
             configFile.currentEOSConfig.msbuildDebug = msbuildDebug;
         }
 
-        public void SaveToJSONConfig(bool prettyPrint)
+        public void Save(bool prettyPrint)
         {
             configFile.SaveToJSONConfig(prettyPrint);
         }
@@ -174,7 +174,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private static string GetMSBuildPath()
         {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(LibraryBuildConfigEditor.ConfigName);
+            var configFilenamePath = EOSPluginEditorConfigEditorWindow.GetConfigPath(LibraryBuildConfigEditor.ConfigName);
             var libraryConfig = new EOSConfigFile<EOSLibraryBuildConfig>(configFilenamePath);
             libraryConfig.LoadConfigFromDisk();
 
@@ -194,7 +194,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private static string GetMakePath()
         {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(LibraryBuildConfigEditor.ConfigName);
+            var configFilenamePath = EOSPluginEditorConfigEditorWindow.GetConfigPath(LibraryBuildConfigEditor.ConfigName);
             var libraryConfig = new EOSConfigFile<EOSLibraryBuildConfig>(configFilenamePath);
             libraryConfig.LoadConfigFromDisk();
 
@@ -214,7 +214,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
         private static bool IsMSBuildDebugEnabled()
         {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(LibraryBuildConfigEditor.ConfigName);
+            var configFilenamePath = EOSPluginEditorConfigEditorWindow.GetConfigPath(LibraryBuildConfigEditor.ConfigName);
             var libraryConfig = new EOSConfigFile<EOSLibraryBuildConfig>(configFilenamePath);
             libraryConfig.LoadConfigFromDisk();
 

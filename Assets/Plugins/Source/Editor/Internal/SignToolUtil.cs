@@ -58,7 +58,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [MenuItem("Tools/EOS Plugin/Sign DLLs")]
         static void SignAllDLLs()
         {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
+            var configFilenamePath = EOSPluginEditorConfigEditorWindow.GetConfigPath(ConfigName);
             var signConfig = new EOSConfigFile<EOSPluginEditorSigningConfig>(configFilenamePath);
             signConfig.LoadConfigFromDisk();
 
@@ -124,16 +124,16 @@ namespace PlayEveryWare.EpicOnlineServices
         [InitializeOnLoadMethod]
         static void Register()
         {
-            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new SignToolConfigEditor());
+            EOSPluginEditorConfigEditorWindow.AddConfigurationSectionEditor(new SignToolConfigEditor());
         }
 
         public void Awake()
         {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
+            var configFilenamePath = EOSPluginEditorConfigEditorWindow.GetConfigPath(ConfigName);
             configFile = new EOSConfigFile<EOSPluginEditorSigningConfig>(configFilenamePath);
         }
 
-        public bool DoesHaveUnsavedChanges()
+        public bool HasUnsavedChanges()
         {
             return false;
         }
@@ -143,7 +143,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return "Code Signing";
         }
 
-        public void LoadConfigFromDisk()
+        public void Read()
         {
             configFile.LoadConfigFromDisk();
         }
@@ -154,10 +154,10 @@ namespace PlayEveryWare.EpicOnlineServices
             string pathToPFX = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToPFX);
             string pfxPassword = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pfxPassword);
             string timestampURL = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.timestampURL);
-            EpicOnlineServicesConfigEditor.AssigningPath("Path to SignTool", ref pathToSigntool, "Select SignTool", extension: "exe");
-            EpicOnlineServicesConfigEditor.AssigningPath("Path to PFX key", ref pathToPFX, "Select PFX key", extension: "pfx");
-            EpicOnlineServicesConfigEditor.AssigningTextField("PFX password", ref pfxPassword);
-            EpicOnlineServicesConfigEditor.AssigningTextField("Timestamp Authority URL", ref timestampURL);
+            EpicOnlineServicesConfigEditorWindow.AssigningPath("Path to SignTool", ref pathToSigntool, "Select SignTool", extension: "exe");
+            EpicOnlineServicesConfigEditorWindow.AssigningPath("Path to PFX key", ref pathToPFX, "Select PFX key", extension: "pfx");
+            EpicOnlineServicesConfigEditorWindow.AssigningTextField("PFX password", ref pfxPassword);
+            EpicOnlineServicesConfigEditorWindow.AssigningTextField("Timestamp Authority URL", ref timestampURL);
 
             if (configFile.currentEOSConfig.dllPaths == null)
             {
@@ -168,7 +168,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 EditorGUILayout.BeginHorizontal();
                 string dllPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.dllPaths[i]);
-                EpicOnlineServicesConfigEditor.AssigningTextField("", ref dllPath);
+                EpicOnlineServicesConfigEditorWindow.AssigningTextField("", ref dllPath);
                 configFile.currentEOSConfig.dllPaths[i] = dllPath;
                 if (GUILayout.Button("Remove", GUILayout.MaxWidth(100)))
                 {
@@ -187,7 +187,7 @@ namespace PlayEveryWare.EpicOnlineServices
             configFile.currentEOSConfig.timestampURL = timestampURL.Trim();
         }
 
-        public void SaveToJSONConfig(bool prettyPrint)
+        public void Save(bool prettyPrint)
         {
             configFile.SaveToJSONConfig(prettyPrint);
         }

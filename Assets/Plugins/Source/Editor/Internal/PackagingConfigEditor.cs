@@ -55,7 +55,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [InitializeOnLoadMethod]
         static void Register()
         {
-            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new EOSPluginEditorPackagingConfigSection());
+            EOSPluginEditorConfigEditorWindow.AddConfigurationSectionEditor(new EOSPluginEditorPackagingConfigSection());
         }
 
         //-------------------------------------------------------------------------
@@ -67,18 +67,18 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public void Awake()
         {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
+            var configFilenamePath = EOSPluginEditorConfigEditorWindow.GetConfigPath(ConfigName);
             configFile = new EOSConfigFile<EOSPluginEditorPackagingConfig>(configFilenamePath);
         }
 
         //-------------------------------------------------------------------------
-        public bool DoesHaveUnsavedChanges()
+        public bool HasUnsavedChanges()
         {
             return false;
         }
 
         //-------------------------------------------------------------------------
-        public void LoadConfigFromDisk()
+        public void Read()
         {
             configFile.LoadConfigFromDisk();
         }
@@ -94,9 +94,9 @@ namespace PlayEveryWare.EpicOnlineServices
             string pathToJSONPackageDescription = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToJSONPackageDescription);
             string customBuildDirectoryPath = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.customBuildDirectoryPath);
             string pathToOutput = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToOutput);
-            EpicOnlineServicesConfigEditor.AssigningPath("JSON Description Path", ref pathToJSONPackageDescription, "Pick JSON Package Description", extension: "json", labelWidth: 170);
-            EpicOnlineServicesConfigEditor.AssigningPath("Custom Build Directory Path", ref customBuildDirectoryPath, "Pick Custom Build Directory", selectFolder: true, labelWidth: 170);
-            EpicOnlineServicesConfigEditor.AssigningPath("Output Path", ref pathToOutput, "Pick Output Directory", selectFolder: true, labelWidth: 170);
+            EpicOnlineServicesConfigEditorWindow.AssigningPath("JSON Description Path", ref pathToJSONPackageDescription, "Pick JSON Package Description", extension: "json", labelWidth: 170);
+            EpicOnlineServicesConfigEditorWindow.AssigningPath("Custom Build Directory Path", ref customBuildDirectoryPath, "Pick Custom Build Directory", selectFolder: true, labelWidth: 170);
+            EpicOnlineServicesConfigEditorWindow.AssigningPath("Output Path", ref pathToOutput, "Pick Output Directory", selectFolder: true, labelWidth: 170);
 
             configFile.currentEOSConfig.pathToJSONPackageDescription = pathToJSONPackageDescription;
             configFile.currentEOSConfig.customBuildDirectoryPath = customBuildDirectoryPath;
@@ -104,7 +104,7 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         //-------------------------------------------------------------------------
-        public void SaveToJSONConfig(bool prettyPrint)
+        public void Save(bool prettyPrint)
         {
             configFile.SaveToJSONConfig(prettyPrint);
         }

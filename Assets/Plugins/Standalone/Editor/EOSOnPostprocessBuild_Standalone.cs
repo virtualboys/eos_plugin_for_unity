@@ -442,7 +442,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
             report.summary.platform == BuildTarget.StandaloneOSX ||
             report.summary.platform == BuildTarget.StandaloneLinux64)
         {
-            var editorToolsConfigSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorToolsConfigSection>();
+            var editorToolsConfigSection = EOSPluginEditorConfigEditorWindow.GetConfigurationSectionEditor<EOSPluginEditorToolsConfigSection>();
             EOSPluginEditorToolsConfig editorToolConfig = null;
             
             bool useEAC = false;
@@ -450,7 +450,7 @@ public class EOSOnPostprocessBuild_Standalone:  IPostprocessBuildWithReport
             if (editorToolsConfigSection != null)
             {
                 editorToolsConfigSection.Awake();
-                editorToolsConfigSection.LoadConfigFromDisk();
+                editorToolsConfigSection.Read();
 
                 editorToolConfig = editorToolsConfigSection.GetCurrentConfig();
                 if (editorToolConfig != null)

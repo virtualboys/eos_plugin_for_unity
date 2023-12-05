@@ -15,7 +15,7 @@ namespace PlayEveryWare.EpicOnlineServices
         [InitializeOnLoadMethod]
         static void Register()
         {
-            EOSPluginEditorConfigEditor.AddConfigurationSectionEditor(new EOSPluginEditorAndroidBuildConfigSection());
+            EOSPluginEditorConfigEditorWindow.AddConfigurationSectionEditor(new EOSPluginEditorAndroidBuildConfigSection());
         }
 
         //-------------------------------------------------------------------------
@@ -27,18 +27,18 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         public void Awake()
         {
-            var configFilenamePath = EOSPluginEditorConfigEditor.GetConfigPath(ConfigName);
+            var configFilenamePath = EOSPluginEditorConfigEditorWindow.GetConfigPath(ConfigName);
             configFile = new EOSConfigFile<EOSPluginEditorAndroidBuildConfig>(configFilenamePath);
         }
 
         //-------------------------------------------------------------------------
-        public bool DoesHaveUnsavedChanges()
+        public bool HasUnsavedChanges()
         {
             return false;
         }
 
         //-------------------------------------------------------------------------
-        public void LoadConfigFromDisk()
+        public void Read()
         {
             configFile.LoadConfigFromDisk();
         }
@@ -51,11 +51,11 @@ namespace PlayEveryWare.EpicOnlineServices
         //-------------------------------------------------------------------------
         void IEOSPluginEditorConfigurationSection.OnGUI()
         {
-            EpicOnlineServicesConfigEditor.AssigningBoolField("Link EOS Library Dynamically", ref configFile.currentEOSConfig.DynamicallyLinkEOSLibrary);
+            EpicOnlineServicesConfigEditorWindow.AssigningBoolField("Link EOS Library Dynamically", ref configFile.currentEOSConfig.DynamicallyLinkEOSLibrary);
         }
 
         //-------------------------------------------------------------------------
-        public void SaveToJSONConfig(bool prettyPrint)
+        public void Save(bool prettyPrint)
         {
             configFile.SaveToJSONConfig(prettyPrint);
         }

@@ -148,7 +148,7 @@ namespace Playeveryware.Editor
             List<SrcDestPair> ignoreList = new List<SrcDestPair>();
             string currentWorkingDir = Path.GetFullPath(Directory.GetCurrentDirectory()).Replace('\\', '/') + "/";
 
-            var toolsSection = EOSPluginEditorConfigEditor.GetConfigurationSectionEditor<EOSPluginEditorToolsConfigSection>();
+            var toolsSection = EOSPluginEditorConfigEditorWindow.GetConfigurationSectionEditor<EOSPluginEditorToolsConfigSection>();
             toolsSection?.Awake();
 
             foreach (var srcToDestKeyValues in packageDescription.source_to_dest)
@@ -206,7 +206,7 @@ namespace Playeveryware.Editor
                         {
                             if (toolsSection.GetCurrentConfig() == null)
                             {
-                                toolsSection.LoadConfigFromDisk();
+                                toolsSection.Read();
                             }
                             var pathToSignTool = toolsSection.GetCurrentConfig().pathToEACIntegrityTool;
                             var pathToDefaultCertificate = toolsSection.GetCurrentConfig().pathToDefaultCertificate;

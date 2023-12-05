@@ -20,15 +20,15 @@
 * SOFTWARE.
 */
 
+using PlayEveryWare.EpicOnlineServices;
 using UnityEngine;
 using UnityEditor;
 
 // make lines a little shorter
 using UPCUtil = UnityPackageCreationUtility;
-using ConfigEditor = PlayEveryWare.EpicOnlineServices.EpicOnlineServicesConfigEditor;
 
 //-------------------------------------------------------------------------
-public class UnityPackageCreationTool : EditorWindow
+public class UnityPackageCreationToolWindow : EditorWindow
 {
     const string DEFAULT_OUTPUT_DIRECTORY = "Build";
 
@@ -38,7 +38,7 @@ public class UnityPackageCreationTool : EditorWindow
     [MenuItem("Tools/EOS Plugin/Create Package")]
     public static void ShowWindow()
     {
-        GetWindow(typeof(UnityPackageCreationTool), false, "Create Package", true);
+        GetWindow(typeof(UnityPackageCreationToolWindow), false, "Create Package", true);
     }
 
     //-------------------------------------------------------------------------
@@ -48,7 +48,7 @@ public class UnityPackageCreationTool : EditorWindow
 
         GUILayout.BeginHorizontal();
         GUILayout.Space(10f);
-        ConfigEditor.AssigningTextField("Output Path", ref UPCUtil.pathToOutput);
+        EpicOnlineServicesConfigEditorWindow.AssigningTextField("Output Path", ref UPCUtil.pathToOutput);
         if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
         {
             var outputDir = EditorUtility.OpenFolderPanel("Pick Output Directory", "", "");
@@ -66,7 +66,7 @@ public class UnityPackageCreationTool : EditorWindow
         {
             GUILayout.BeginHorizontal();
             GUILayout.Space(10f);
-            ConfigEditor.AssigningTextField("JSON Description Path", ref UPCUtil.jsonPackageFile);
+            EpicOnlineServicesConfigEditorWindow.AssigningTextField("JSON Description Path", ref UPCUtil.jsonPackageFile);
             if (GUILayout.Button("Select", GUILayout.MaxWidth(100)))
             {
                 var jsonFile = EditorUtility.OpenFilePanel("Pick JSON Package Description", "", "json");
@@ -133,7 +133,7 @@ public class UnityPackageCreationTool : EditorWindow
         {
             return false;
         }
-        UPCUtil.packageConfig.SaveToJSONConfig(true);
+        UPCUtil.packageConfig.Save(true);
         return true;
     }
 
