@@ -41,18 +41,18 @@ namespace PlayEveryWare.EpicOnlineServices
             EncryptionKeyRegex = new Regex("[^0-9a-fA-F]");
         }
 
-        public static void AddPlatformSpecificConfigEditor(IPlatformSpecificConfigEditor platformSpecificConfigEditor)
+        public static void AddPlatformSpecificConfigEditor(IEOSPluginEditorConfigurationSection platformSpecificConfigEditor)
         {
             if (platformSpecificConfigEditors == null)
             {
-                platformSpecificConfigEditors = new List<IPlatformSpecificConfigEditor>();
+                platformSpecificConfigEditors = new List<IEOSPluginEditorConfigurationSection>();
             }
             platformSpecificConfigEditors.Add(platformSpecificConfigEditor);
         }
 
         private static string IntegratedPlatformConfigFilenameForSteam = "eos_steam_config.json";
 
-        static List<IPlatformSpecificConfigEditor> platformSpecificConfigEditors;
+        static List<IEOSPluginEditorConfigurationSection> platformSpecificConfigEditors;
 
 
         int toolbarInt = 0;
@@ -183,7 +183,7 @@ _WIN32 || _WIN64
 
             if (platformSpecificConfigEditors == null)
             {
-                platformSpecificConfigEditors = new List<IPlatformSpecificConfigEditor>();
+                platformSpecificConfigEditors = new List<IEOSPluginEditorConfigurationSection>();
             }
 
             toolbarTitleStrings = new string[2 + platformSpecificConfigEditors.Count];

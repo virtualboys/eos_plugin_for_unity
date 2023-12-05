@@ -28,7 +28,7 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
 
-    public class PlatformSpecificConfigEditormacOS : IPlatformSpecificConfigEditor
+    public class PlatformSpecificConfigEditormacOS : IEOSPluginEditorConfigurationSection
     {
         public static string ConfigFilename = "eos_macos_config.json";
         EOSConfigFile<EOS_macOSConfig> configFile;

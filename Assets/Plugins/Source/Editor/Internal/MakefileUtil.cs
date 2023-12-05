@@ -68,7 +68,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return false;
         }
 
-        public string GetNameForMenu()
+        public string GetMenuName()
         {
             return "Platform Library Build Settings";
         }

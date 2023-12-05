@@ -28,7 +28,7 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
 
-    public class PlatformSpecificConfigEditorAndroid : IPlatformSpecificConfigEditor
+    public class PlatformSpecificConfigEditorAndroid : IEOSPluginEditorConfigurationSection
     {
         public static string ConfigFilename = "eos_android_config.json";
         EOSConfigFile<EOSAndroidConfig> configFile;

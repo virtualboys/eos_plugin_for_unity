@@ -138,7 +138,7 @@ namespace PlayEveryWare.EpicOnlineServices
             return false;
         }
 
-        public string GetNameForMenu()
+        public string GetMenuName()
         {
             return "Code Signing";
         }
