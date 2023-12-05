@@ -32,13 +32,25 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
 
-    public class EpicOnlineServicesConfigEditorWindow : EditorWindow
+    public class EpicOnlineServicesConfigEditorWindow : EOSAbstractEditorWindow
     {
-        static Regex EncryptionKeyRegex;
+        int toolbarInt = 0;
+        string[] toolbarTitleStrings;
+        EOSConfigFile<EOSConfig> mainEOSConfigFile;
+        bool prettyPrint = false;
+        EOSConfigFile<EOSSteamConfig> steamEOSConfigFile;
 
-        static EpicOnlineServicesConfigEditorWindow()
+#if ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE
+        string eosGeneratedCFilePath = "";
+#endif
+
+        static List<IEOSPluginEditorConfigurationSection> platformSpecificConfigEditors;
+        private static string IntegratedPlatformConfigFilenameForSteam = "eos_steam_config.json";
+
+        [MenuItem("Tools/EOS Plugin/Dev Portal Configuration")]
+        public static void ShowWindow()
         {
-            EncryptionKeyRegex = new Regex("[^0-9a-fA-F]");
+            GetWindow(typeof(EpicOnlineServicesConfigEditorWindow), false, "EOS Config Editor", true);
         }
 
         public static void AddPlatformSpecificConfigEditor(IEOSPluginEditorConfigurationSection platformSpecificConfigEditor)
@@ -50,30 +62,6 @@ namespace PlayEveryWare.EpicOnlineServices
             platformSpecificConfigEditors.Add(platformSpecificConfigEditor);
         }
 
-        private static string IntegratedPlatformConfigFilenameForSteam = "eos_steam_config.json";
-
-        static List<IEOSPluginEditorConfigurationSection> platformSpecificConfigEditors;
-
-
-        int toolbarInt = 0;
-        string[] toolbarTitleStrings;
-
-        EOSConfigFile<EOSConfig> mainEOSConfigFile;
-
-#if ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE
-        string eosGeneratedCFilePath = "";
-#endif
-        bool prettyPrint = false;
-
-        EOSConfigFile<EOSSteamConfig> steamEOSConfigFile;
-
-        [MenuItem("Tools/EOS Plugin/Dev Portal Configuration")]
-        public static void ShowWindow()
-        {
-            GetWindow(typeof(EpicOnlineServicesConfigEditorWindow), false, "EOS Config Editor", true);
-        }
-
-
         [SettingsProvider]
         public static SettingsProvider CreateProjectSettingsProvider()
         {
@@ -82,7 +70,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             foreach(var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
-                keywords.Add(platformSpecificConfigEditor.GetMenuName());
+                keywords.Add(platformSpecificConfigEditor.GetPlatformName());
             }
 
             var provider = new SettingsProvider("Project/EOS Plugin", SettingsScope.Project)
@@ -194,7 +182,7 @@ _WIN32 || _WIN64
             foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
                 platformSpecificConfigEditor.Awake();
-                toolbarTitleStrings[i] = platformSpecificConfigEditor.GetMenuName();
+                toolbarTitleStrings[i] = platformSpecificConfigEditor.GetPlatformName();
                 i++;
             }
 
@@ -470,7 +458,6 @@ _WIN32 || _WIN64
 
             EditorGUIUtility.labelWidth = originalLabelWidth;
         }
-
 
         public static void HorizontalLine(Color color)
         {

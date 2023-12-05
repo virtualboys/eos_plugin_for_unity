@@ -35,7 +35,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// Creates the view for showing the eos plugin editor config values.
     ///
     /// </summary>
-    public class EOSPluginEditorConfigEditorWindow : EditorWindow
+    public class EOSPluginEditorConfigEditorWindow : EOSAbstractEditorWindow
     {
         private static string ConfigDirectory = "etc/EOSPluginEditorConfiguration";
 
@@ -171,7 +171,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 foreach (var configurationSectionEditor in configurationSectionEditors)
                 {
 
-                    GUILayout.Label(configurationSectionEditor.GetMenuName(), EditorStyles.boldLabel);
+                    GUILayout.Label(configurationSectionEditor.GetPlatformName(), EditorStyles.boldLabel);
                     EpicOnlineServicesConfigEditorWindow.HorizontalLine(Color.white);
                     configurationSectionEditor.OnGUI();
                     EditorGUILayout.Space();

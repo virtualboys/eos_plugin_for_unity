@@ -43,7 +43,7 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         //-------------------------------------------------------------------------
-        public string GetMenuName()
+        public string GetPlatformName()
         {
             return "Tools";
         }

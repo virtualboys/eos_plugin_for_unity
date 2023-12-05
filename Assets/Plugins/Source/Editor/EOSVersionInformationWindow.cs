@@ -32,7 +32,7 @@ namespace PlayEveryWare.EpicOnlineServices
     /// <summary>
     /// Unity Editor tool to display plug-in version information.
     /// </summary>
-    public class EOSVersionInformationWindow : EditorWindow
+    public class EOSVersionInformationWindow : EOSAbstractEditorWindow
     {
         string eos_library_version = "Not found";
         string eos_plugin_version = "Not found";

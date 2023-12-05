@@ -29,19 +29,50 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public interface IEOSPluginEditorConfigurationSection
+    public abstract class AbstractEOSPluginEditorConfigurationSection <T> : IEOSPluginEditorConfigurationSection where T : IEmpty, ICloneableGeneric<T>, new()
     {
-        string GetPlatformName();
+        protected string PlatformName;
+        protected EOSConfigFile<T> ConfigFile;
 
-        void Awake();
+        protected AbstractEOSPluginEditorConfigurationSection(string platformName)
+        {
+            PlatformName = platformName;
+        }
 
-        void Read();
+        public string GetPlatformName()
+        {
+            return PlatformName;
+        }
 
-        void Save(bool prettyPrint);
+        public string GetConfigFileName()
+        {
+            return $"eos_{GetPlatformName().ToLower()}_config.json";
+        }
 
-        void OnGUI();
+        public void Awake()
+        {
+            string configFilePath = EpicOnlineServicesConfigEditorWindow.GetConfigPath(GetConfigFileName());
+            ConfigFile = new EOSConfigFile<T>(configFilePath);
+        }
 
-        bool HasUnsavedChanges();
+        public void Read()
+        {
+            ConfigFile.LoadConfigFromDisk();
+        }
+
+        public void Save(bool prettyPrint)
+        {
+            ConfigFile.SaveToJSONConfig(prettyPrint);
+        }
+
+        public abstract void OnGUI();
+
+        // TODO: Implement logic for this to be meaningful
+        public bool HasUnsavedChanges()
+        {
+            return false;
+        }
+
+
     }
-
 }

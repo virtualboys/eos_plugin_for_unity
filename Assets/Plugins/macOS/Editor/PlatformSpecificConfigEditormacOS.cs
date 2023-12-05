@@ -28,10 +28,9 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
 
-    public class PlatformSpecificConfigEditormacOS : IEOSPluginEditorConfigurationSection
+    public class PlatformSpecificConfigEditormacOS : AbstractEOSPluginEditorConfigurationSection<EOS_macOSConfig>
     {
-        public static string ConfigFilename = "eos_macos_config.json";
-        EOSConfigFile<EOS_macOSConfig> configFile;
+        public PlatformSpecificConfigEditormacOS() : base("macOS") { }
 
         [InitializeOnLoadMethod]
         static void Register()
@@ -39,34 +38,18 @@ namespace PlayEveryWare.EpicOnlineServices
             EpicOnlineServicesConfigEditorWindow.AddPlatformSpecificConfigEditor(new PlatformSpecificConfigEditormacOS());
         }
 
-        public string GetMenuName()
-        {
-            return "macOS";
-        }
-
-        public void Awake()
-        {
-            var configFilenamePath = EpicOnlineServicesConfigEditorWindow.GetConfigPath(ConfigFilename);
-            configFile = new EOSConfigFile<EOS_macOSConfig>(configFilenamePath);
-        }
-
-        public void Read()
-        {
-            configFile.LoadConfigFromDisk();
-        }
-
-        public void OnGUI()
+        public override void OnGUI()
         {
             GUILayout.Label("macOS Configuration Values", EditorStyles.boldLabel);
 
             EOSConfig overrideValues = null;
-            if (configFile.currentEOSConfig.overrideValues == null)
+            if (ConfigFile.currentEOSConfig.overrideValues == null)
             {
                 overrideValues = new EOSConfig();
             }
             else
             {
-                overrideValues = configFile.currentEOSConfig.overrideValues;
+                overrideValues = ConfigFile.currentEOSConfig.overrideValues;
             }
 
             EpicOnlineServicesConfigEditorWindow.AssigningFlagTextField("Override Platform Flags (Seperated by '|')", ref overrideValues.platformOptionsFlags, 250);
@@ -84,19 +67,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
             if (!overrideValues.IsEmpty())
             {
-                configFile.currentEOSConfig.overrideValues = overrideValues;
+                ConfigFile.currentEOSConfig.overrideValues = overrideValues;
             }
 
-        }
-
-        public void Save(bool prettyPrint)
-        {
-            configFile.SaveToJSONConfig(prettyPrint);
-        }
-
-        public bool HasUnsavedChanges()
-        {
-            return false;
         }
     }
 }

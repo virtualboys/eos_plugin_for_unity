@@ -28,7 +28,7 @@ using UnityEditor;
 using UPCUtil = UnityPackageCreationUtility;
 
 //-------------------------------------------------------------------------
-public class UnityPackageCreationToolWindow : EditorWindow
+public class UnityPackageCreationToolWindow : EOSAbstractEditorWindow
 {
     const string DEFAULT_OUTPUT_DIRECTORY = "Build";
 

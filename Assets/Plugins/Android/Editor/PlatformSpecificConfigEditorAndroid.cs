@@ -28,10 +28,9 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
 
-    public class PlatformSpecificConfigEditorAndroid : IEOSPluginEditorConfigurationSection
+    public class PlatformSpecificConfigEditorAndroid : AbstractEOSPluginEditorConfigurationSection<EOSAndroidConfig>
     {
-        public static string ConfigFilename = "eos_android_config.json";
-        EOSConfigFile<EOSAndroidConfig> configFile;
+        public PlatformSpecificConfigEditorAndroid() : base("Android") { }
 
         [InitializeOnLoadMethod]
         static void Register()
@@ -39,34 +38,18 @@ namespace PlayEveryWare.EpicOnlineServices
             EpicOnlineServicesConfigEditorWindow.AddPlatformSpecificConfigEditor(new PlatformSpecificConfigEditorAndroid());
         }
 
-        public string GetMenuName()
-        {
-            return "Android";
-        }
-
-        public void Awake()
-        {
-            var configFilenamePath = EpicOnlineServicesConfigEditorWindow.GetConfigPath(ConfigFilename);
-            configFile = new EOSConfigFile<EOSAndroidConfig>(configFilenamePath);
-        }
-
-        public void Read()
-        {
-            configFile.LoadConfigFromDisk();
-        }
-
-        public void OnGUI()
+        public override void OnGUI()
         {
             GUILayout.Label("Android Configuration Values", EditorStyles.boldLabel);
 
             EOSConfig overrideValues = null;
-            if (configFile.currentEOSConfig.overrideValues == null)
+            if (ConfigFile.currentEOSConfig.overrideValues == null)
             {
                 overrideValues = new EOSConfig();
             }
             else
             {
-                overrideValues = configFile.currentEOSConfig.overrideValues;
+                overrideValues = ConfigFile.currentEOSConfig.overrideValues;
             }
 
             EpicOnlineServicesConfigEditorWindow.AssigningFlagTextField("Override Platform Flags (Seperated by '|')", ref overrideValues.platformOptionsFlags, 250);
@@ -84,19 +67,9 @@ namespace PlayEveryWare.EpicOnlineServices
 
             if (!overrideValues.IsEmpty())
             {
-                configFile.currentEOSConfig.overrideValues = overrideValues;
+                ConfigFile.currentEOSConfig.overrideValues = overrideValues;
             }
 
-        }
-
-        public void Save(bool prettyPrint)
-        {
-            configFile.SaveToJSONConfig(prettyPrint);
-        }
-
-        public bool HasUnsavedChanges()
-        {
-            return false;
         }
     }
 }

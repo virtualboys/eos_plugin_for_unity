@@ -31,6 +31,5 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     public abstract class EOSAbstractEditorWindow : EditorWindow
     {
-
     }
 }
