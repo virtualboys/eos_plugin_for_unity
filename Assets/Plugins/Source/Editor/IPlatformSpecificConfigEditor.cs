@@ -26,7 +26,7 @@ namespace PlayEveryWare.EpicOnlineServices
     // Interface for allowing adding additional config files to the Config editor
     public interface IPlatformSpecificConfigEditor
     {
-        string GetNameForMenu();
+        string GetMenuName();
 
         void Awake();
 

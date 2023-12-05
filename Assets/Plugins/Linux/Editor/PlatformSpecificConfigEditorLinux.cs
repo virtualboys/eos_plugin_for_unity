@@ -38,7 +38,7 @@ namespace PlayEveryWare.EpicOnlineServices
             EpicOnlineServicesConfigEditor.AddPlatformSpecificConfigEditor(new PlatformSpecificConfigEditorLinux());
         }
 
-        public string GetNameForMenu()
+        public string GetMenuName()
         {
             return "Linux";
         }

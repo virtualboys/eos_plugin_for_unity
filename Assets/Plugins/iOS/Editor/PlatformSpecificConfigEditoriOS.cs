@@ -39,7 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices
             EpicOnlineServicesConfigEditor.AddPlatformSpecificConfigEditor(new PlatformSpecificConfigEditoriOS());
         }
 
-        public string GetNameForMenu()
+        public string GetMenuName()
         {
             return "iOS";
         }

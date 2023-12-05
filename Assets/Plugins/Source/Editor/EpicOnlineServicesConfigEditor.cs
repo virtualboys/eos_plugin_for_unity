@@ -82,7 +82,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             foreach(var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
-                keywords.Add(platformSpecificConfigEditor.GetNameForMenu());
+                keywords.Add(platformSpecificConfigEditor.GetMenuName());
             }
 
             var provider = new SettingsProvider("Project/EOS Plugin", SettingsScope.Project)
@@ -194,7 +194,7 @@ _WIN32 || _WIN64
             foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
                 platformSpecificConfigEditor.Awake();
-                toolbarTitleStrings[i] = platformSpecificConfigEditor.GetNameForMenu();
+                toolbarTitleStrings[i] = platformSpecificConfigEditor.GetMenuName();
                 i++;
             }
 
