@@ -27,7 +27,7 @@ using UnityEngine;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class EOSPluginEditorPackagingConfigSection : AbstractEOSPluginEditorConfigurationSection<EOSPluginEditorPackagingConfig>
+    public class EOSPluginEditorPackagingConfigSection : AbstractConfigSection<EOSPluginEditorPackagingConfig>
     {
         public EOSPluginEditorPackagingConfigSection() : base("Plugin Packaging") { }
 

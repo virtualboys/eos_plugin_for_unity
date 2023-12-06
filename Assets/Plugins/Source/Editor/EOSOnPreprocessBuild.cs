@@ -39,7 +39,7 @@ public class EOSOnPreprocessBuild : IPreprocessBuildWithReport
     public void AutoSetProductVersion()
     {
 #if !EOS_DISABLE
-        var eosVersionConfigSection = EOSPluginEditorConfigEditorWindow.GetConfigurationSectionEditor<EOSPluginEditorPrebuildConfigSection>();
+        var eosVersionConfigSection = EOSPluginEditorConfigEditorWindow.GetConfigurationSectionEditor<PrebuildConfigSection>();
 
         if (eosVersionConfigSection == null)
         {

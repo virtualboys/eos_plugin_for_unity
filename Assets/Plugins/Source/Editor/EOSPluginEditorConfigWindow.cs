@@ -39,7 +39,7 @@ namespace PlayEveryWare.EpicOnlineServices
     {
         private static string ConfigDirectory = "etc/EOSPluginEditorConfiguration";
 
-        static List<IEOSPluginEditorConfigurationSection> configurationSectionEditors;
+        static List<IConfigSection> configurationSectionEditors;
 
         bool prettyPrint = false;
 
@@ -73,18 +73,18 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         //-------------------------------------------------------------------------
-        public static void AddConfigurationSectionEditor(IEOSPluginEditorConfigurationSection section)
+        public static void AddConfigurationSectionEditor(IConfigSection section)
         {
             if (configurationSectionEditors == null)
             {
-                configurationSectionEditors = new List<IEOSPluginEditorConfigurationSection>();
+                configurationSectionEditors = new List<IConfigSection>();
             }
 
             configurationSectionEditors.Add(section);
         }
 
         //-------------------------------------------------------------------------
-        public static T GetConfigurationSectionEditor<T>() where T : IEOSPluginEditorConfigurationSection, new()
+        public static T GetConfigurationSectionEditor<T>() where T : IConfigSection, new()
         {
             if (configurationSectionEditors != null)
             {
@@ -150,7 +150,7 @@ namespace PlayEveryWare.EpicOnlineServices
         {
             if (configurationSectionEditors == null)
             {
-                configurationSectionEditors = new List<IEOSPluginEditorConfigurationSection>();
+                configurationSectionEditors = new List<IConfigSection>();
             }
 
             foreach (var configurationSectionEditor in configurationSectionEditors)

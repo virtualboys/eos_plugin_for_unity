@@ -29,7 +29,7 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class EOSPluginEditorToolsConfigSection : AbstractEOSPluginEditorConfigurationSection<EOSPluginEditorToolsConfig>
+    public class EOSPluginEditorToolsConfigSection : AbstractConfigSection<EOSPluginEditorToolsConfig>
     {
         private static string ConfigName = "eos_plugin_tools_config.json";
         private EOSConfigFile<EOSPluginEditorToolsConfig> configFile;

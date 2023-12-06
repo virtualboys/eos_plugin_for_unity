@@ -44,7 +44,7 @@ namespace PlayEveryWare.EpicOnlineServices
         string eosGeneratedCFilePath = "";
 #endif
 
-        static List<IEOSPluginEditorConfigurationSection> platformSpecificConfigEditors;
+        static List<IConfigSection> platformSpecificConfigEditors;
         private static string IntegratedPlatformConfigFilenameForSteam = "eos_steam_config.json";
 
         #region Static Methods
@@ -55,11 +55,11 @@ namespace PlayEveryWare.EpicOnlineServices
             GetWindow(typeof(EpicOnlineServicesConfigEditorWindow), false, "EOS Config Editor", true);
         }
 
-        public static void AddPlatformSpecificConfigEditor(IEOSPluginEditorConfigurationSection platformSpecificConfigEditor)
+        public static void AddPlatformSpecificConfigEditor(IConfigSection platformSpecificConfigEditor)
         {
             if (platformSpecificConfigEditors == null)
             {
-                platformSpecificConfigEditors = new List<IEOSPluginEditorConfigurationSection>();
+                platformSpecificConfigEditors = new List<IConfigSection>();
             }
             platformSpecificConfigEditors.Add(platformSpecificConfigEditor);
         }
@@ -438,7 +438,7 @@ _WIN32 || _WIN64
 
             if (platformSpecificConfigEditors == null)
             {
-                platformSpecificConfigEditors = new List<IEOSPluginEditorConfigurationSection>();
+                platformSpecificConfigEditors = new List<IConfigSection>();
             }
 
             toolbarTitleStrings = new string[2 + platformSpecificConfigEditors.Count];

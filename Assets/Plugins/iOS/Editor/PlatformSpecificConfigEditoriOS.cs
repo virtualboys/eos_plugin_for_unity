@@ -28,7 +28,7 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
 
-    public class PlatformSpecificConfigEditoriOS : AbstractEOSPluginEditorConfigurationSection<EOS_iOSConfig>
+    public class PlatformSpecificConfigEditoriOS : AbstractConfigSection<EOS_iOSConfig>
     {
         public PlatformSpecificConfigEditoriOS() : base("iOS") { }
 

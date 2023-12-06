@@ -29,19 +29,25 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public interface IEOSPluginEditorConfigurationSection
+    public class PrebuildConfigSection : AbstractConfigSection<EOSPluginEditorPrebuildConfig>
     {
-        string GetSectionName();
+        public PrebuildConfigSection() : base("Prebuild Settings") { }
 
-        void Awake();
+        [InitializeOnLoadMethod]
+        static void Register()
+        {
+            EOSPluginEditorConfigEditorWindow.AddConfigurationSectionEditor(new PrebuildConfigSection());
+        }
 
-        void Read();
+        public EOSPluginEditorPrebuildConfig GetCurrentConfig()
+        {
+            return ConfigFile.currentEOSConfig;
+        }
 
-        void Save(bool prettyPrint);
-
-        void OnGUI();
-
-        bool HasUnsavedChanges();
+        public override void OnGUI()
+        {
+            EpicOnlineServicesConfigEditorWindow.AssigningBoolField("Use Unity App Version for the EOS product version",
+                ref ConfigFile.currentEOSConfig.useAppVersionAsProductVersion, 300);
+        }
     }
-
 }

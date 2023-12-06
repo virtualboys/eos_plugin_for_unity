@@ -27,33 +27,7 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    // Flags specificly for Switch
-    public class EOSAndroidConfig : ICloneableGeneric<EOSAndroidConfig>, IEmpty
+    public class EOSAndroidConfig : EOSPlatformConfig
     {
-        public List<string> flags;
-
-        public EOSConfig overrideValues;
-
-        //-------------------------------------------------------------------------
-        public EOSAndroidConfig Clone()
-        {
-            return (EOSAndroidConfig)this.MemberwiseClone();
-        }
-
-        //-------------------------------------------------------------------------
-        public bool IsEmpty()
-        {
-            return EmptyPredicates.IsEmptyOrNullOrContainsOnlyEmpty(flags) &&
-                EmptyPredicates.IsEmptyOrNull(overrideValues);
-        }
-
-
-        //-------------------------------------------------------------------------
-#if !EOS_DISABLE
-        public Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags flagsAsIntegratedPlatformManagementFlags()
-        {
-            return EOSConfig.flagsAsIntegratedPlatformManagementFlags(flags);
-        }
-#endif
     }
 }

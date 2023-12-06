@@ -50,7 +50,7 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 
-    public class SignToolConfigEditor : IEOSPluginEditorConfigurationSection
+    public class SignToolConfigEditor : IConfigSection
     {
         private static string ConfigName = "eos_plugin_signing_config.json";
         private EOSConfigFile<EOSPluginEditorSigningConfig> configFile;

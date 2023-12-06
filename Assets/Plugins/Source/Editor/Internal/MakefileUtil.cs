@@ -46,7 +46,7 @@ namespace PlayEveryWare.EpicOnlineServices
         }
     }
 
-    public class LibraryBuildConfigEditor : IEOSPluginEditorConfigurationSection
+    public class LibraryBuildConfigEditor : IConfigSection
     {
         [InitializeOnLoadMethod]
         static void Register()

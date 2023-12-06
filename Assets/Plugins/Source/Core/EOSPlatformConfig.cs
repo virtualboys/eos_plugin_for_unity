@@ -21,58 +21,32 @@
  */
 
 using System;
-using System.IO;
-using UnityEditor;
 using UnityEngine;
-using PlayEveryWare.EpicOnlineServices;
 using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public abstract class AbstractEOSPluginEditorConfigurationSection <T> : IEOSPluginEditorConfigurationSection where T : IEmpty, ICloneableGeneric<T>, new()
+    public abstract class EOSPlatformConfig : IEmpty, ICloneable
     {
-        protected string SectionName;
-        protected EOSConfigFile<T> ConfigFile;
+        public List<string> flags;
+        public EOSConfig overrideValues;
 
-        protected AbstractEOSPluginEditorConfigurationSection(string sectionName)
+        public virtual bool IsEmpty()
         {
-            SectionName = sectionName;
+            return EmptyPredicates.IsEmptyOrNullOrContainsOnlyEmpty(flags) &&
+                   EmptyPredicates.IsEmptyOrNull(overrideValues);
         }
 
-        public string GetSectionName()
+        public object Clone()
         {
-            return SectionName;
+            return this.MemberwiseClone();
         }
 
-        public string GetConfigFileName()
+#if !EOS_DISABLE
+        public Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags flagsAsIntegratedPlatformManagementFlags()
         {
-            return $"eos_{GetSectionName().ToLower().Replace(" ", "_")}_config.json";
+            return EOSConfig.flagsAsIntegratedPlatformManagementFlags(flags);
         }
-
-        public void Awake()
-        {
-            string configFilePath = EpicOnlineServicesConfigEditorWindow.GetConfigPath(GetConfigFileName());
-            ConfigFile = new EOSConfigFile<T>(configFilePath);
-        }
-
-        public void Read()
-        {
-            ConfigFile.LoadConfigFromDisk();
-        }
-
-        public void Save(bool prettyPrint)
-        {
-            ConfigFile.SaveToJSONConfig(prettyPrint);
-        }
-
-        public abstract void OnGUI();
-
-        // TODO: Implement logic for this to be meaningful
-        public bool HasUnsavedChanges()
-        {
-            return false;
-        }
-
-
+#endif
     }
 }

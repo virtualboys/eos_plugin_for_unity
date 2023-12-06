@@ -29,34 +29,7 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     // Flags specificly for Linux
     [Serializable]
-    public class EOSLinuxConfig : ICloneableGeneric<EOSLinuxConfig>, IEmpty
+    public class EOSLinuxConfig : EOSPlatformConfig
     {
-        public List<string> flags;
-
-        public EOSConfig overrideValues;
-
-        //-------------------------------------------------------------------------
-        public EOSLinuxConfig Clone()
-        {
-            return (EOSLinuxConfig)this.MemberwiseClone();
-        }
-
-        //-------------------------------------------------------------------------
-        public bool IsEmpty()
-        {
-            return EmptyPredicates.IsEmptyOrNullOrContainsOnlyEmpty(flags)
-                && EmptyPredicates.IsEmptyOrNull(overrideValues)
-                ;
-
-        }
-
-
-        //-------------------------------------------------------------------------
-#if !EOS_DISABLE
-        public Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags flagsAsIntegratedPlatformManagementFlags()
-        {
-            return EOSConfig.flagsAsIntegratedPlatformManagementFlags(flags);
-        }
-#endif
     }
 }

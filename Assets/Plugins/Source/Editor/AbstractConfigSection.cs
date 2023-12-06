@@ -29,25 +29,50 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class EOSPluginEditorPrebuildConfigSection : AbstractEOSPluginEditorConfigurationSection<EOSPluginEditorPrebuildConfig>
+    public abstract class AbstractConfigSection <T> : IConfigSection where T : EOSPlatformConfig
     {
-        public EOSPluginEditorPrebuildConfigSection() : base("Prebuild Settings") { }
+        protected string SectionName;
+        protected EOSConfigFile<T> ConfigFile;
 
-        [InitializeOnLoadMethod]
-        static void Register()
+        protected AbstractConfigSection(string sectionName)
         {
-            EOSPluginEditorConfigEditorWindow.AddConfigurationSectionEditor(new EOSPluginEditorPrebuildConfigSection());
+            SectionName = sectionName;
         }
 
-        public EOSPluginEditorPrebuildConfig GetCurrentConfig()
+        public string GetSectionName()
         {
-            return ConfigFile.currentEOSConfig;
+            return SectionName;
         }
 
-        public override void OnGUI()
+        public string GetConfigFileName()
         {
-            EpicOnlineServicesConfigEditorWindow.AssigningBoolField("Use Unity App Version for the EOS product version",
-                ref ConfigFile.currentEOSConfig.useAppVersionAsProductVersion, 300);
+            return $"eos_{GetSectionName().ToLower().Replace(" ", "_")}_config.json";
         }
+
+        public void Awake()
+        {
+            string configFilePath = EpicOnlineServicesConfigEditorWindow.GetConfigPath(GetConfigFileName());
+            ConfigFile = new EOSConfigFile<T>(configFilePath);
+        }
+
+        public void Read()
+        {
+            ConfigFile.LoadConfigFromDisk();
+        }
+
+        public void Save(bool prettyPrint)
+        {
+            ConfigFile.SaveToJSONConfig(prettyPrint);
+        }
+
+        public abstract void OnGUI();
+
+        // TODO: Implement logic for this to be meaningful
+        public bool HasUnsavedChanges()
+        {
+            
+        }
+
+
     }
 }

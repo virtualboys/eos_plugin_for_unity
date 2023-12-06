@@ -28,7 +28,7 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
 
-    public class PlatformSpecificConfigEditorAndroid : AbstractEOSPluginEditorConfigurationSection<EOSAndroidConfig>
+    public class PlatformSpecificConfigEditorAndroid : AbstractConfigSection<EOSAndroidConfig>
     {
         public PlatformSpecificConfigEditorAndroid() : base("Android") { }
 

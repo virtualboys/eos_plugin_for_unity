@@ -27,7 +27,7 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class PlatformSpecificConfigEditorLinux : AbstractEOSPluginEditorConfigurationSection<EOSLinuxConfig>
+    public class PlatformSpecificConfigEditorLinux : AbstractConfigSection<EOSLinuxConfig>
     {
         private static string ConfigFilename = "eos_linux_config.json";
         PlayEveryWare.EpicOnlineServices.EOSConfigFile<EOSLinuxConfig> configFile;

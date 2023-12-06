@@ -28,7 +28,7 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
 
-    public class PlatformSpecificConfigEditormacOS : AbstractEOSPluginEditorConfigurationSection<EOS_macOSConfig>
+    public class PlatformSpecificConfigEditormacOS : AbstractConfigSection<EOS_macOSConfig>
     {
         public PlatformSpecificConfigEditormacOS() : base("macOS") { }
 

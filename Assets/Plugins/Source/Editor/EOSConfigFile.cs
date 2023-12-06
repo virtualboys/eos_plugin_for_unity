@@ -27,7 +27,7 @@ using UnityEngine;
 namespace PlayEveryWare.EpicOnlineServices
 {
     //-------------------------------------------------------------------------
-    public class EOSConfigFile<T> where T : ICloneableGeneric<T>, IEmpty, new()
+    public class EOSConfigFile<T> where T : EOSPlatformConfig, new()
     {
         public string configFilenamePath;
         public T configDataOnDisk;
@@ -54,7 +54,7 @@ namespace PlayEveryWare.EpicOnlineServices
             {
                 configDataOnDisk = new T();
             }
-            currentEOSConfig = configDataOnDisk.Clone();
+            currentEOSConfig = (T)configDataOnDisk.Clone();
         }
 
         //-------------------------------------------------------------------------

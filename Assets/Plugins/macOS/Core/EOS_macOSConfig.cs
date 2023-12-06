@@ -28,32 +28,7 @@ using System.Collections.Generic;
 namespace PlayEveryWare.EpicOnlineServices
 {
     // Flags specificly for macOS
-    public class EOS_macOSConfig : ICloneableGeneric<EOS_macOSConfig>, IEmpty
+    public class EOS_macOSConfig : EOSPlatformConfig
     {
-        public List<string> flags;
-
-        public EOSConfig overrideValues;
-
-        //-------------------------------------------------------------------------
-        public EOS_macOSConfig Clone()
-        {
-            return (EOS_macOSConfig)this.MemberwiseClone();
-        }
-
-        //-------------------------------------------------------------------------
-        public bool IsEmpty()
-        {
-            return EmptyPredicates.IsEmptyOrNullOrContainsOnlyEmpty(flags) &&
-                EmptyPredicates.IsEmptyOrNull(overrideValues);
-        }
-
-
-        //-------------------------------------------------------------------------
-#if !EOS_DISABLE
-        public Epic.OnlineServices.IntegratedPlatform.IntegratedPlatformManagementFlags flagsAsIntegratedPlatformManagementFlags()
-        {
-            return EOSConfig.flagsAsIntegratedPlatformManagementFlags(flags);
-        }
-#endif
     }
 }

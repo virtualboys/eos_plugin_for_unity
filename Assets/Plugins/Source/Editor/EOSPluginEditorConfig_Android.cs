@@ -6,8 +6,7 @@ using UnityEditor;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    //-------------------------------------------------------------------------
-    public class EOSPluginEditorAndroidBuildConfigSection : IEOSPluginEditorConfigurationSection
+    public class EOSPluginEditorAndroidBuildConfigSection : IConfigSection
     {
         private static string ConfigName = "eos_plugin_android_build_config.json";
         private EOSConfigFile<EOSPluginEditorAndroidBuildConfig> configFile;
@@ -18,7 +17,6 @@ namespace PlayEveryWare.EpicOnlineServices
             EOSPluginEditorConfigEditorWindow.AddConfigurationSectionEditor(new EOSPluginEditorAndroidBuildConfigSection());
         }
 
-        //-------------------------------------------------------------------------
         public string GetSectionName()
         {
             return "Android Build Settings";
@@ -49,7 +47,7 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         //-------------------------------------------------------------------------
-        void IEOSPluginEditorConfigurationSection.OnGUI()
+        void IConfigSection.OnGUI()
         {
             EpicOnlineServicesConfigEditorWindow.AssigningBoolField("Link EOS Library Dynamically", ref configFile.currentEOSConfig.DynamicallyLinkEOSLibrary);
         }
