@@ -47,6 +47,8 @@ namespace PlayEveryWare.EpicOnlineServices
         static List<IEOSPluginEditorConfigurationSection> platformSpecificConfigEditors;
         private static string IntegratedPlatformConfigFilenameForSteam = "eos_steam_config.json";
 
+        #region Static Methods
+
         [MenuItem("Tools/EOS Plugin/Dev Portal Configuration")]
         public static void ShowWindow()
         {
@@ -68,9 +70,9 @@ namespace PlayEveryWare.EpicOnlineServices
             var eosPluginEditorConfigEditor = ScriptableObject.CreateInstance<EpicOnlineServicesConfigEditorWindow>();
             var keywords = new List<string>();
 
-            foreach(var platformSpecificConfigEditor in platformSpecificConfigEditors)
+            foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
             {
-                keywords.Add(platformSpecificConfigEditor.GetPlatformName());
+                keywords.Add(platformSpecificConfigEditor.GetSectionName());
             }
 
             var provider = new SettingsProvider("Project/EOS Plugin", SettingsScope.Project)
@@ -94,123 +96,6 @@ namespace PlayEveryWare.EpicOnlineServices
         public static string GetConfigPath(string configFilename)
         {
             return System.IO.Path.Combine(GetConfigDirectory(), configFilename);
-        }
-
-        private string GetWindowsPluginDirectory()
-        {
-            return "";
-        }
-
-        private string GenerateEOSGeneratedFile(EOSConfig aEOSConfig)
-        {
-            return string.Format(String.Join("\n", new string[] {
-            "#define EOS_PRODUCT_NAME \"{0}\"",
-            "#define EOS_PRODUCT_VERSION \"{1}\"",
-            "#define EOS_SANDBOX_ID \"{2}\"",
-            "#define EOS_PRODUCT_ID \"{3}\"",
-            "#define EOS_DEPLOYMENT_ID \"{4}\"",
-            "#define EOS_CLIENT_SECRET \"{5}\"",
-            "#define EOS_CLIENT_ID \"{6}\""
-        }), aEOSConfig.productName,
-            aEOSConfig.productVersion,
-            aEOSConfig.productID,
-            aEOSConfig.sandboxID,
-            aEOSConfig.deploymentID,
-            aEOSConfig.clientSecret,
-            aEOSConfig.clientID) +
-            @"
-_WIN32 || _WIN64
-#define PLATFORM_WINDOWS 1
-#endif
-
-#if _WIN64
-#define PLATFORM_64BITS 1
-#else
-#define PLATFORM_32BITS 1
-#endif
-
-        extern ""C"" __declspec(dllexport) char*  __stdcall GetConfigAsJSONString()
-{
-            return ""{""
-              ""productName:"" EOS_PRODUCT_NAME "",""
-              ""productVersion: "" EOS_PRODUCT_VERSION "",""
-              ""productID: ""  EOS_PRODUCT_ID "",""
-              ""sandboxID: ""  EOS_SANDBOX_ID "",""
-              ""deploymentID: "" EOS_DEPLOYMENT_ID "",""
-              ""clientSecret: ""  EOS_CLIENT_SECRET "",""
-              ""clientID: ""  EOS_CLIENT_ID
-
-           ""}""
-        ;
-        }";
-        }
-
-
-        // read data from json file, if it exists
-        // TODO: Handle different versions of the file?
-        private void LoadConfigFromDisk()
-        {
-            if (!Directory.Exists(GetConfigDirectory()))
-            {
-                Directory.CreateDirectory(GetConfigDirectory());
-            }
-
-            mainEOSConfigFile.LoadConfigFromDisk();
-            steamEOSConfigFile.LoadConfigFromDisk();
-
-            foreach(var platformSpecificConfigEditor in platformSpecificConfigEditors)
-            {
-                platformSpecificConfigEditor.Read();
-            }
-        }
-
-        private void Awake()
-        {
-            mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditorWindow.GetConfigPath(EOSPackageInfo.ConfigFileName));
-            steamEOSConfigFile = new EOSConfigFile<EOSSteamConfig>(EpicOnlineServicesConfigEditorWindow.GetConfigPath(IntegratedPlatformConfigFilenameForSteam));
-
-            if (platformSpecificConfigEditors == null)
-            {
-                platformSpecificConfigEditors = new List<IEOSPluginEditorConfigurationSection>();
-            }
-
-            toolbarTitleStrings = new string[2 + platformSpecificConfigEditors.Count];
-            toolbarTitleStrings[0] = "Main";
-            toolbarTitleStrings[1] = "Steam";
-
-            int i = 2;
-            foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
-            {
-                platformSpecificConfigEditor.Awake();
-                toolbarTitleStrings[i] = platformSpecificConfigEditor.GetPlatformName();
-                i++;
-            }
-
-            LoadConfigFromDisk();
-        }
-
-        private bool DoesHaveUnsavedChanges()
-        {
-            return false;
-        }
-
-        private void SaveToJSONConfig(bool prettyPrint)
-        {
-            mainEOSConfigFile.SaveToJSONConfig(prettyPrint);
-            steamEOSConfigFile.SaveToJSONConfig(prettyPrint);
-
-            foreach(var platformSpecificConfigEditor in platformSpecificConfigEditors)
-            {
-                platformSpecificConfigEditor.Save(prettyPrint);
-            }
-
-#if ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE
-            string generatedCFile = GenerateEOSGeneratedFile(mainEOSConfigFile.currentEOSConfig);
-            File.WriteAllText(Path.Combine(eosGeneratedCFilePath, "EOSGenerated.c"), generatedCFile);
-#endif
-
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
         }
 
         public static string CollectFlags(List<string> flags)
@@ -474,6 +359,125 @@ _WIN32 || _WIN64
             GUI.color = color;
             GUILayout.Box(GUIContent.none, guiStyle);
             GUI.color = currentColor;
+        }
+
+        #endregion
+
+        private string GetWindowsPluginDirectory()
+        {
+            return "";
+        }
+
+        private string GenerateEOSGeneratedFile(EOSConfig aEOSConfig)
+        {
+            return string.Format(String.Join("\n", new string[] {
+            "#define EOS_PRODUCT_NAME \"{0}\"",
+            "#define EOS_PRODUCT_VERSION \"{1}\"",
+            "#define EOS_SANDBOX_ID \"{2}\"",
+            "#define EOS_PRODUCT_ID \"{3}\"",
+            "#define EOS_DEPLOYMENT_ID \"{4}\"",
+            "#define EOS_CLIENT_SECRET \"{5}\"",
+            "#define EOS_CLIENT_ID \"{6}\""
+        }), aEOSConfig.productName,
+            aEOSConfig.productVersion,
+            aEOSConfig.productID,
+            aEOSConfig.sandboxID,
+            aEOSConfig.deploymentID,
+            aEOSConfig.clientSecret,
+            aEOSConfig.clientID) +
+            @"
+_WIN32 || _WIN64
+#define PLATFORM_WINDOWS 1
+#endif
+
+#if _WIN64
+#define PLATFORM_64BITS 1
+#else
+#define PLATFORM_32BITS 1
+#endif
+
+        extern ""C"" __declspec(dllexport) char*  __stdcall GetConfigAsJSONString()
+{
+            return ""{""
+              ""productName:"" EOS_PRODUCT_NAME "",""
+              ""productVersion: "" EOS_PRODUCT_VERSION "",""
+              ""productID: ""  EOS_PRODUCT_ID "",""
+              ""sandboxID: ""  EOS_SANDBOX_ID "",""
+              ""deploymentID: "" EOS_DEPLOYMENT_ID "",""
+              ""clientSecret: ""  EOS_CLIENT_SECRET "",""
+              ""clientID: ""  EOS_CLIENT_ID
+
+           ""}""
+        ;
+        }";
+        }
+
+
+        // read data from json file, if it exists
+        // TODO: Handle different versions of the file?
+        private void LoadConfigFromDisk()
+        {
+            if (!Directory.Exists(GetConfigDirectory()))
+            {
+                Directory.CreateDirectory(GetConfigDirectory());
+            }
+
+            mainEOSConfigFile.LoadConfigFromDisk();
+            steamEOSConfigFile.LoadConfigFromDisk();
+
+            foreach(var platformSpecificConfigEditor in platformSpecificConfigEditors)
+            {
+                platformSpecificConfigEditor.Read();
+            }
+        }
+
+        private void Awake()
+        {
+            mainEOSConfigFile = new EOSConfigFile<EOSConfig>(EpicOnlineServicesConfigEditorWindow.GetConfigPath(EOSPackageInfo.ConfigFileName));
+            steamEOSConfigFile = new EOSConfigFile<EOSSteamConfig>(EpicOnlineServicesConfigEditorWindow.GetConfigPath(IntegratedPlatformConfigFilenameForSteam));
+
+            if (platformSpecificConfigEditors == null)
+            {
+                platformSpecificConfigEditors = new List<IEOSPluginEditorConfigurationSection>();
+            }
+
+            toolbarTitleStrings = new string[2 + platformSpecificConfigEditors.Count];
+            toolbarTitleStrings[0] = "Main";
+            toolbarTitleStrings[1] = "Steam";
+
+            int i = 2;
+            foreach (var platformSpecificConfigEditor in platformSpecificConfigEditors)
+            {
+                platformSpecificConfigEditor.Awake();
+                toolbarTitleStrings[i] = platformSpecificConfigEditor.GetSectionName();
+                i++;
+            }
+
+            LoadConfigFromDisk();
+        }
+
+        private bool DoesHaveUnsavedChanges()
+        {
+            return false;
+        }
+
+        private void SaveToJSONConfig(bool prettyPrint)
+        {
+            mainEOSConfigFile.SaveToJSONConfig(prettyPrint);
+            steamEOSConfigFile.SaveToJSONConfig(prettyPrint);
+
+            foreach(var platformSpecificConfigEditor in platformSpecificConfigEditors)
+            {
+                platformSpecificConfigEditor.Save(prettyPrint);
+            }
+
+#if ALLOW_CREATION_OF_EOS_CONFIG_AS_C_FILE
+            string generatedCFile = GenerateEOSGeneratedFile(mainEOSConfigFile.currentEOSConfig);
+            File.WriteAllText(Path.Combine(eosGeneratedCFilePath, "EOSGenerated.c"), generatedCFile);
+#endif
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
 
         private void OnDefaultGUI()

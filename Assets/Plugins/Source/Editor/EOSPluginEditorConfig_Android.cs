@@ -19,7 +19,7 @@ namespace PlayEveryWare.EpicOnlineServices
         }
 
         //-------------------------------------------------------------------------
-        public string GetPlatformName()
+        public string GetSectionName()
         {
             return "Android Build Settings";
         }

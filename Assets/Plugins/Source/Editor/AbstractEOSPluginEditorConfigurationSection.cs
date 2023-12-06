@@ -31,22 +31,22 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     public abstract class AbstractEOSPluginEditorConfigurationSection <T> : IEOSPluginEditorConfigurationSection where T : IEmpty, ICloneableGeneric<T>, new()
     {
-        protected string PlatformName;
+        protected string SectionName;
         protected EOSConfigFile<T> ConfigFile;
 
-        protected AbstractEOSPluginEditorConfigurationSection(string platformName)
+        protected AbstractEOSPluginEditorConfigurationSection(string sectionName)
         {
-            PlatformName = platformName;
+            SectionName = sectionName;
         }
 
-        public string GetPlatformName()
+        public string GetSectionName()
         {
-            return PlatformName;
+            return SectionName;
         }
 
         public string GetConfigFileName()
         {
-            return $"eos_{GetPlatformName().ToLower()}_config.json";
+            return $"eos_{GetSectionName().ToLower().Replace(" ", "_")}_config.json";
         }
 
         public void Awake()

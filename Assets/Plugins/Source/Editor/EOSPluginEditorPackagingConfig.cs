@@ -20,34 +20,30 @@
  * SOFTWARE.
  */
 
-using System;
-using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using PlayEveryWare.EpicOnlineServices;
-using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-    public class EOSPluginEditorPrebuildConfigSection : AbstractEOSPluginEditorConfigurationSection<EOSPluginEditorPrebuildConfig>
+    public class EOSPluginEditorPackagingConfig : ICloneableGeneric<EOSPluginEditorPackagingConfig>, IEmpty
     {
-        public EOSPluginEditorPrebuildConfigSection() : base("Prebuild Settings") { }
+        public string customBuildDirectoryPath;
+        public string pathToJSONPackageDescription;
+        public string pathToOutput;
 
-        [InitializeOnLoadMethod]
-        static void Register()
+        public EOSPluginEditorPackagingConfig Clone()
         {
-            EOSPluginEditorConfigEditorWindow.AddConfigurationSectionEditor(new EOSPluginEditorPrebuildConfigSection());
+            return (EOSPluginEditorPackagingConfig)this.MemberwiseClone();
         }
 
-        public EOSPluginEditorPrebuildConfig GetCurrentConfig()
+        public bool IsEmpty()
         {
-            return ConfigFile.currentEOSConfig;
-        }
-
-        public override void OnGUI()
-        {
-            EpicOnlineServicesConfigEditorWindow.AssigningBoolField("Use Unity App Version for the EOS product version",
-                ref ConfigFile.currentEOSConfig.useAppVersionAsProductVersion, 300);
+            return string.IsNullOrEmpty(customBuildDirectoryPath)
+                   && string.IsNullOrEmpty(pathToJSONPackageDescription)
+                   && string.IsNullOrEmpty(pathToOutput)
+                ;
         }
     }
 }

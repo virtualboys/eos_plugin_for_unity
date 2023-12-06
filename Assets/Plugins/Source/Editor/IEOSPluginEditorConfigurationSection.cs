@@ -31,7 +31,7 @@ namespace PlayEveryWare.EpicOnlineServices
 {
     public interface IEOSPluginEditorConfigurationSection
     {
-        string GetPlatformName();
+        string GetSectionName();
 
         void Awake();
 

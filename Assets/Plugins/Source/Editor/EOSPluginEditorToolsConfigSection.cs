@@ -29,12 +29,12 @@ using System.Collections.Generic;
 
 namespace PlayEveryWare.EpicOnlineServices
 {
-
-    //-------------------------------------------------------------------------
-    public class EOSPluginEditorToolsConfigSection : IEOSPluginEditorConfigurationSection
+    public class EOSPluginEditorToolsConfigSection : AbstractEOSPluginEditorConfigurationSection<EOSPluginEditorToolsConfig>
     {
         private static string ConfigName = "eos_plugin_tools_config.json";
         private EOSConfigFile<EOSPluginEditorToolsConfig> configFile;
+
+        public EOSPluginEditorToolsConfigSection() : base("Plugin Tools") { }
 
         [InitializeOnLoadMethod]
         static void Register()
@@ -42,38 +42,12 @@ namespace PlayEveryWare.EpicOnlineServices
             EOSPluginEditorConfigEditorWindow.AddConfigurationSectionEditor(new EOSPluginEditorToolsConfigSection());
         }
 
-        //-------------------------------------------------------------------------
-        public string GetPlatformName()
-        {
-            return "Tools";
-        }
-
-        //-------------------------------------------------------------------------
-        public void Awake()
-        {
-            var configFilenamePath = EOSPluginEditorConfigEditorWindow.GetConfigPath(ConfigName);
-            configFile = new EOSConfigFile<EOSPluginEditorToolsConfig>(configFilenamePath);
-        }
-
-        //-------------------------------------------------------------------------
-        public bool HasUnsavedChanges()
-        {
-            return false;
-        }
-
-        //-------------------------------------------------------------------------
-        public void Read()
-        {
-            configFile.LoadConfigFromDisk();
-        }
-
         public EOSPluginEditorToolsConfig GetCurrentConfig()
         {
             return configFile.currentEOSConfig;
         }
 
-        //-------------------------------------------------------------------------
-        void IEOSPluginEditorConfigurationSection.OnGUI()
+        public override void OnGUI()
         {
 
             string pathToIntegrityTool = EmptyPredicates.NewIfNull(configFile.currentEOSConfig.pathToEACIntegrityTool);
@@ -106,13 +80,5 @@ namespace PlayEveryWare.EpicOnlineServices
             configFile.currentEOSConfig.useEAC = useEAC;
             configFile.currentEOSConfig.bootstrapperNameOverride = bootstrapOverideName;
         }
-
-        //-------------------------------------------------------------------------
-        public void Save(bool prettyPrint)
-        {
-            configFile.SaveToJSONConfig(prettyPrint);
-        }
     }
-
-
 }
