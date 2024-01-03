@@ -158,3 +158,6 @@ Assets/Plugins/Source/Editor/obj/
 Assets/Plugins/Android/*
 *_BackUpThisFolder_ButDontShipItWithYourGame*
 *_BurstDebugInformation_DoNotShip*
+
+# Ignore changes made to any config files for EOS plugin
+Assets/StreamingAssets/EOS/*.json*
